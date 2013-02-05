@@ -16,6 +16,16 @@ app.use(express.bodyParser());
 var _socket;
 
 
+function parseSms(msg){
+    var parts = msg.split(/\W(.+)?/);
+
+    return {
+        id: parts[0] || "UNKNOWN",
+        msg: parts[1] || ""
+    }
+}
+
+
 app.post("/sms/hello/:name", function(request, response){
 
     var name = request.params.name;
@@ -33,7 +43,30 @@ app.post("/sms/hello/:name", function(request, response){
 });
 
 
-app.post("/sms/reply/c1", function(request, response){
+
+app.post("/twilio/voice/call/:number", function(request, response){
+    var number = req.params.number;
+
+    twilio.makeCall({
+        to:'+' + number,
+        from:'+18016236842',
+        url: 'http://http://stark-eyrie-7115.herokuapp.com/twiml/sayhello'
+    });
+});
+
+
+app.get("/twilio/sayhello", function(request, response){
+    var twiml = new twilio.TwimlResponse();
+    twiml.say('Hello there. Are you having fun yet?')
+        .pause({length: 2})
+        .say('Google Developer Group Utah rocks, thanks for coming', {voice: 'woman'});
+
+    response.writeHead(200, {'Content-Type': 'text/xml'});
+    response.end(twiml.toString());
+});
+
+
+app.post("/twilio/sms/reply", function(request, response){
     var twiml = new twilio.TwimlResponse();
 
     var textBody = request.body.Body;
@@ -42,7 +75,8 @@ app.post("/sms/reply/c1", function(request, response){
 
     switch(text.id){
         case 'c1':
-            twiml.sms("Hello " + text.body + ", your next challenge is: http://nextchallenge");
+        case 'C1':
+            twiml.sms("Hello " + text.msg + ", your next challenge is: http://nextchallenge");
             break;
         default:
             twiml.sms("Unknown challenge, are you using the right format?")
@@ -53,30 +87,7 @@ app.post("/sms/reply/c1", function(request, response){
 });
 
 
-function parseSms(msg){
-
-    var parts = msg.split(/\W(.+)?/);
-
-    return {
-        id: parts[0] || "UNKNOWN",
-        msg: parts[1] || ""
-    }
-}
-
 /*
-app.post("/sms/hello/:name", function(request, response){
-
-    var name = req.params.name;
-
-    twilio.makeCall({
-        to:'+18013807870',
-        from:'+18016236842',
-        url: 'https://demo.twilio.com/welcome/voice/'
-    });
-
-    console.log('twilio call...');
-});
-*/
 app.post("/twilio", function(request, response){
     console.log(request.body);
 
@@ -85,7 +96,7 @@ app.post("/twilio", function(request, response){
     }
 
     response.send('ok');
-});
+});*/
 
 
 if(process.env.PORT){
