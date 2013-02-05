@@ -33,10 +33,11 @@ app.post("/sms/hello/:name", function(request, response){
 });
 
 app.get("/sms/reply/c1", function(request, response){
-    var resp = new twilio.TwimlResponse();
-    resp.sms('http://twilio.com');
+    var twiml = new twilio.TwimlResponse();
+    twiml.sms('http://twilio.com');
 
-    response.send(resp.toString());
+    response.writeHead(200, {'Content-Type': 'text/xml'});
+    response.end(twiml.toString());
 });
 
 /*
