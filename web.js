@@ -32,12 +32,13 @@ app.post("/sms/hello/:name", function(request, response){
     response.send('OK');
 });
 
+
 app.post("/sms/reply/c1", function(request, response){
     var twiml = new twilio.TwimlResponse();
 
     var textBody = request.body.Body;
 
-    var text = parsSms(textBody);
+    var text = parseSms(textBody);
 
     switch(text.id){
         case 'c1':
