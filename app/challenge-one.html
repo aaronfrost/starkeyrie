@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title></title>
+    <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
+</head>
+<body>
+    Name: <input id="name" type="text"><button onclick="sendText();">Send</button>
+
+    <script type="text/javascript">
+
+
+        function sendText(){
+            var name = $('#name').val()
+            console.log(name);
+
+
+            if(name){
+                $.ajax({
+                    url: '/sms/hello/' + name,
+                    type: 'POST'
+                });
+            }
+        }
+    </script>
+</body>
+</html>

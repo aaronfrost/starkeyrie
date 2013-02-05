@@ -2,11 +2,13 @@ var express = require('express')
 //    app = require('express')()
     , app = express()
     , server = require('http').createServer(app)
-    , io = require('socket.io').listen(server);
+    , io = require('socket.io').listen(server)
+    , twilio = require('twilio')
+    , client = twilio('ACa06ffb2f2430fc1cb9aa8ac3d3dae024', 'aff462978a1253b808732cc2826584c9');
 
 server.listen(process.env.PORT || 5001);
 
-app.use("/", express.static(__dirname));
+app.use("/", express.static(__dirname + '/app'));
 
 
 app.use(express.bodyParser());
@@ -14,10 +16,43 @@ app.use(express.bodyParser());
 var _socket;
 
 
-app.get("/hello", function(request, response){
-    response.send("HELLO");
+app.post("/sms/hello/:name", function(request, response){
+
+    var name = request.params.name;
+
+    client.sendSms({
+        to:'+18013807870',
+        from:'+18016236842',
+        body: 'Hello, my name is ' + name
+    }, function(err, responseData){
+        console.log('error', err, responseData);
+    });
+
+    console.log('sms send...');
+    response.send('OK');
 });
 
+app.get("/sms/reply/c1", function(request, response){
+    var resp = new twilio.TwimlResponse();
+    resp.sms('http://twilio.com');
+
+    response.send(resp.toString());
+});
+
+/*
+app.post("/sms/hello/:name", function(request, response){
+
+    var name = req.params.name;
+
+    twilio.makeCall({
+        to:'+18013807870',
+        from:'+18016236842',
+        url: 'https://demo.twilio.com/welcome/voice/'
+    });
+
+    console.log('twilio call...');
+});
+*/
 app.post("/twilio", function(request, response){
     console.log(request.body);
 
