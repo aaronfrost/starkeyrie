@@ -34,6 +34,10 @@ app.post("/sms/hello/:name", function(request, response){
 
 app.post("/sms/reply/c1", function(request, response){
     var twiml = new twilio.TwimlResponse();
+
+    console.log("got text", request.params.body);
+    
+
     twiml.sms('http://twilio.com');
 
     response.writeHead(200, {'Content-Type': 'text/xml'});
