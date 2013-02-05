@@ -35,14 +35,32 @@ app.post("/sms/hello/:name", function(request, response){
 app.post("/sms/reply/c1", function(request, response){
     var twiml = new twilio.TwimlResponse();
 
-    console.log("got text", request.body.Body);
+    var textBody = request.body.Body;
 
+    var text = parsSms(textBody);
 
-    twiml.sms('http://twilio.com');
+    switch(text.id){
+        case 'c1':
+            twiml.sms("Hello " + text.body + ", your next challenge is: http://nextchallenge");
+            break;
+        default:
+            twiml.sms("Unknown challenge, are you using the right format?")
+    }
 
     response.writeHead(200, {'Content-Type': 'text/xml'});
     response.end(twiml.toString());
 });
+
+
+function parseSms(msg){
+
+    var parts = msg.split(/\W(.+)?/);
+
+    return {
+        id: parts[0] || "UNKNOWN",
+        msg: parts[1] || ""
+    }
+}
 
 /*
 app.post("/sms/hello/:name", function(request, response){
