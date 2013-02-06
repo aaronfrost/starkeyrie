@@ -1,10 +1,12 @@
+console.log("TWILIO_SID: " + process.env.TWILIO_SID);
+console.log("TWILIO_AUTH_TOKEN: " + process.env.TWILIO_AUTH_TOKEN.substring(0,2) + "*****");
+
 var express = require('express')
-//    app = require('express')()
     , app = express()
     , server = require('http').createServer(app)
     , io = require('socket.io').listen(server)
     , twilio = require('twilio')
-    , client = twilio('', '');
+    , client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
 
 server.listen(process.env.PORT || 5001);
 
