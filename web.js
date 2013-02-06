@@ -53,6 +53,8 @@ app.post("/twilio/voice/call/:number", function(request, response){
         from:'+18016236842',
         url: 'http://http://stark-eyrie-7115.herokuapp.com/twiml/sayhello'
     });
+
+    response.end("ok");
 });
 
 
