@@ -51,7 +51,7 @@ app.post("/twilio/voice/call/:number", function(request, response){
     client.makeCall({
         to:'+' + number,
         from:'+18016236842',
-        url: 'http://http://stark-eyrie-7115.herokuapp.com/twiml/sayhello'
+        url: 'http://http://stark-eyrie-7115.herokuapp.com/twilio/sayhello'
     });
 
     response.end("ok");
