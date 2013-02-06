@@ -26,19 +26,18 @@ function parseSms(msg){
 }
 
 
-app.post("/sms/hello/:name", function(request, response){
-
-    var name = request.params.name;
+app.post("/twilio/sms/send", function(request, response){
+    var msg = request.body;
+    console.log(msg);
 
     client.sendSms({
-        to:'+18013807870',
-        from:'+18016236842',
-        body: 'Hello, my name is ' + name
+        to: msg.to,
+        from: msg.from,
+        body: msg.body
     }, function(err, responseData){
         console.log('error', err, responseData);
     });
 
-    console.log('sms send...');
     response.send('OK');
 });
 

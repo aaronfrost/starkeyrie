@@ -11,14 +11,19 @@
 
 
         function sendText(){
-            var name = $('#name').val()
+            var name = $('#name').val();
             console.log(name);
 
 
             if(name){
                 $.ajax({
-                    url: '/sms/hello/' + name,
-                    type: 'POST'
+                    url: '/twilio/sms/send',
+                    type: 'POST',
+                    data: {
+                        to: "+18013807870",
+                        from: "+18016236842",
+                        body: "Hello my name is: " + name
+                    }
                 });
             }
         }
