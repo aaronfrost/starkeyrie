@@ -58,7 +58,7 @@ app.post("/twilio/voice/call/:number", function(request, response){
 });
 
 
-app.get("/twilio/sayhello", function(request, response){
+app.post("/twilio/sayhello", function(request, response){
     var twiml = new twilio.TwimlResponse();
     twiml.say('Hello there. Are you having fun yet?')
         .pause({length: 2})
