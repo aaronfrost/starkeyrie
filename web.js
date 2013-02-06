@@ -76,11 +76,14 @@ app.post("/twilio/sms/reply", function(request, response){
 
     var text = parseSms(textBody);
 
-    switch(text.id){
-        case 'c1':
+    switch(text.id.toUpperCase()){
         case 'C1':
-            twiml.sms("Hello " + text.msg + ", your next challenge is: http://nextchallenge");
+            twiml.sms("http://nextchallenge");
             break;
+        case 'C2':
+            twiml.sms("http://nextchallenge.mp3");
+            break;
+
         default:
             twiml.sms("Unknown challenge, are you using the right format?")
     }
