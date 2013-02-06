@@ -48,7 +48,7 @@ app.post("/twilio/sms/send", function(request, response){
 app.post("/twilio/voice/call/:number", function(request, response){
     var number = request.params.number;
 
-    twilio.makeCall({
+    client.makeCall({
         to:'+' + number,
         from:'+18016236842',
         url: 'http://http://stark-eyrie-7115.herokuapp.com/twiml/sayhello'
