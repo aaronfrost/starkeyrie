@@ -46,7 +46,7 @@ app.post("/twilio/sms/send", function(request, response){
 
 
 app.post("/twilio/voice/call/:number", function(request, response){
-    var number = req.params.number;
+    var number = request.params.number;
 
     twilio.makeCall({
         to:'+' + number,
