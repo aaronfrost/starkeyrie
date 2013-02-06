@@ -4,7 +4,7 @@ var express = require('express')
     , server = require('http').createServer(app)
     , io = require('socket.io').listen(server)
     , twilio = require('twilio')
-    , client = twilio('ACa06ffb2f2430fc1cb9aa8ac3d3dae024', 'aff462978a1253b808732cc2826584c9');
+    , client = twilio('', '');
 
 server.listen(process.env.PORT || 5001);
 
