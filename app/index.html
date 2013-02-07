@@ -4,6 +4,29 @@
     <title></title>
 </head>
 <body>
-hello
+
+
+<h1>Challenge One</h1>
+<ul id="c1-names">
+
+</ul>
+
+
+<script src="/socket.io/socket.io.js"></script>
+<script>
+    var socket = io.connect('http://localhost');
+    socket.on('connection', function (data) {
+        console.log('connected', data);
+//        socket.emit('my other event', { my:'data' });
+    });
+
+
+    socket.on('c1', function(data){
+        console.log('c1', data);
+
+        $('#c1').append('<li>').text(data.name);
+    });
+</script>
+
 </body>
 </html>

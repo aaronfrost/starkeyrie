@@ -73,6 +73,8 @@ app.post("/twilio/sayhello", function(request, response){
 app.post("/twilio/sms/reply", function(request, response){
     var twiml = new twilio.TwimlResponse();
 
+    console.log(request.body);
+
     var textBody = request.body.Body;
 
     var text = parseSms(textBody);
@@ -80,6 +82,10 @@ app.post("/twilio/sms/reply", function(request, response){
     switch(text.id.toUpperCase()){
         case 'C1':
             twiml.sms("Hi "+ text.msg +", http://nextchallenge");
+
+            io.sockets.emit('c1', request.body);
+
+
             break;
         case 'C2':
             twiml.sms("mp3 http://stark-eyrie-7115.herokuapp.com/cmm.mp3");
@@ -115,6 +121,9 @@ if(process.env.PORT){
 }
 
 
+
+
+
 io.sockets.on('connection', function (socket) {
     _socket = socket;
 
@@ -129,6 +138,9 @@ io.sockets.on('connection', function (socket) {
         socket.broadcast.emit('remote', data);
     });
 });
+
+
+
 
 
 
