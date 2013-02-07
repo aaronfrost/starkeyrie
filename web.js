@@ -91,7 +91,6 @@ app.post("/twilio/sms/reply", function(request, response){
 
             io.sockets.emit('c2', request.body);
             break;
-
         case 'C3':
             twiml.sms("mp3 http://stark-eyrie-7115.herokuapp.com/cmm.mp3");
             io.sockets.emit('c3', request.body);
@@ -103,10 +102,9 @@ app.post("/twilio/sms/reply", function(request, response){
                 from:'+18016236842',
                 url: 'http://stark-eyrie-7115.herokuapp.com/client/congrats'
             });
-
-
+            break;
         default:
-            twiml.sms("Unknown challenge, are you using the right format?")
+            twiml.sms("Unknown challenge, are you using the right format?");
             io.sockets.emit('c0', request.body);
     }
 
