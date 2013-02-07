@@ -77,36 +77,46 @@ app.post("/twilio/sms/reply", function(request, response){
 
     var textBody = request.body.Body;
 
-    var text = parseSms(textBody);
-
-    switch(text.id.toUpperCase()){
-        case 'C1':
-            twiml.sms("Hi "+ text.msg +", http://nextchallenge");
-
-            io.sockets.emit('c1', request.body);
-
-            break;
-        case 'C2':
-            twiml.sms("mp3 http://stark-eyrie-7115.herokuapp.com/cmm.mp3");
-
-            io.sockets.emit('c2', request.body);
-            break;
-        case 'C3':
-            twiml.sms("mp3 http://stark-eyrie-7115.herokuapp.com/cmm.mp3");
-            io.sockets.emit('c3', request.body);
-            break;
-        case '33':
-            //
-            client.makeCall({
-                to:request.body.From,
-                from:'+18016236842',
-                url: 'http://stark-eyrie-7115.herokuapp.com/client/congrats'
-            });
-            break;
-        default:
-            twiml.sms("Unknown challenge, are you using the right format?");
-            io.sockets.emit('c0', request.body);
+    if(textBody.indexOf('wind') > -1 || textBody.indexOf('blows') > -1){
+        client.makeCall({
+            to:request.body.From,
+            from:'+18016236842',
+            url: 'http://stark-eyrie-7115.herokuapp.com/client/congrats2'
+        });
     }
+    else{
+        var text = parseSms(textBody);
+
+        switch(text.id.toUpperCase()){
+            case 'C1':
+                twiml.sms("Hi "+ text.msg +", http://nextchallenge");
+
+                io.sockets.emit('c1', request.body);
+
+                break;
+            case 'C2':
+                twiml.sms("mp3 http://stark-eyrie-7115.herokuapp.com/cmm.mp3");
+
+                io.sockets.emit('c2', request.body);
+                break;
+            case 'C3':
+                twiml.sms("mp3 http://stark-eyrie-7115.herokuapp.com/cmm.mp3");
+                io.sockets.emit('c3', request.body);
+                break;
+            case '33':
+                //
+                client.makeCall({
+                    to:request.body.From,
+                    from:'+18016236842',
+                    url: 'http://stark-eyrie-7115.herokuapp.com/client/congrats'
+                });
+                break;
+            default:
+                twiml.sms("Unknown challenge, are you using the right format?");
+                io.sockets.emit('c0', request.body);
+        }
+    }
+
 
     response.writeHead(200, {'Content-Type': 'text/xml'});
     response.end(twiml.toString());
@@ -117,6 +127,15 @@ app.post('/client/congrats', function(req, res){
     twiml.pause({length: 3});
 //    twiml.play('http://stark-eyrie-7115.herokuapp.com/congrats2.mp3');
     twiml.say('Any way the wind blows, doesn\'t really matter two me');
+
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
+});
+
+app.post('/client/congrats2', function(req, res){
+    var twiml = new twilio.TwimlResponse();
+    twiml.pause({length: 1});
+    twiml.play('http://stark-eyrie-7115.herokuapp.com/congrats.mp3');
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
@@ -313,5 +332,11 @@ app.get("/client2/start",function(req, res){
 
     res.end('CLIENT2 OK3');
 
+});
+
+
+//routes
+fs.readdirSync(__dirname + '/routes').forEach(function(file) {
+//    require('./routes/' + file)(app, server, twilio);
 });
 
