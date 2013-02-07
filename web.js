@@ -111,13 +111,15 @@ app.post("/twilio/sms/reply", function(request, response){
     response.writeHead(200, {'Content-Type': 'text/xml'});
     response.end(twiml.toString());
 });
+
 app.post('/client/congrats', function(req, res){
     var twiml = new twilio.TwimlResponse();
+    twiml.pause({length: 2});
     twiml.play('http://stark-eyrie-7115.herokuapp.com/congrats2.mp3');
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
-})
+});
 
 
 /*
@@ -277,7 +279,7 @@ app.post('/client2/numCallback', function(req, res){
     var total = 0;
     digits.forEach(function(d){
         total += parseInt(d);
-    })
+    });
     //res.end('ENDING NumCallback')
     var twiml = new twilio.TwimlResponse();
     twiml.say('Well Mister Wisenheimer, your total is '+total, {voice: 'woman', language: 'en-gb'});
