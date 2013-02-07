@@ -80,7 +80,7 @@ module.exports = function(app, server, twilio){
 
         if(textBody.indexOf('wind') > -1 || textBody.indexOf('blows') > -1){
             // WINNER
-            io.socket.emit('c3', request.body);
+            io.sockets.emit('c3', request.body);
         }
         else{
             var text = parseSms(textBody);
