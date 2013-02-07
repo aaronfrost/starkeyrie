@@ -1,6 +1,5 @@
 var http = require('http');
 
-/* Example web services. Would normally communicate with a database to get the data */
 module.exports = function (app, server, twilio) {
     var client2 = twilio(process.env.TWILIO_SID2, process.env.TWILIO_AUTH_TOKEN2);
     var client2Mp3;

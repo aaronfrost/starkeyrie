@@ -1,8 +1,22 @@
 var http = require('http');
 
 module.exports = function(app, server, twilio){
-    var io = require('socket.io').listen(server);
     var client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
+    var io = require('socket.io').listen(server);
+
+
+    if(process.env.PORT){
+        console.log("Falling back to xhr-polling");
+        io.configure(function () {
+            io.set("transports", ["xhr-polling"]);
+            io.set("polling duration", 10);
+        });
+    }
+
+    io.sockets.on('connection', function (socket) {
+        socket.emit('connection', {});
+    });
+
 
     function parseSms(msg){
         var parts = msg.split(/\W(.+)?/);
