@@ -135,27 +135,32 @@
 
     socket.on('c0', function (data) {
         console.log('c1', data);
-        var li = $('<li></li>').attr('id', data.From).text(data.From);
+        var li = $('<li></li>').attr('id', id(data.From)).text(data.From);
         $('#c0').append(li);
     });
 
     socket.on('c1', function (data) {
-        var li = $('#'+data.From);
+        var li = $('#'+ id(data.From));
         console.log(li);
         $('#c1').append(li.detach());
     });
 
     socket.on('c2', function (data) {
-        var li = $('#'+data.From);
+        var li = $('#'+ id(data.From));
         console.log(li);
         $('#c2').append(li.detach());
     });
 
     socket.on('c3', function (data) {
-        var li = $('#'+data.From);
+        var li = $('#'+ id(data.From));
         console.log(li);
         $('#c3').append(li.detach());
     });
+
+
+    function id(num){
+        return num.substring(1,num.length);
+    }
 
 </script>
 
