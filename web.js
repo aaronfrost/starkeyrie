@@ -6,7 +6,8 @@ var express = require('express')
     , server = require('http').createServer(app)
     , io = require('socket.io').listen(server)
     , twilio = require('twilio')
-    , client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN);
+    , client = twilio(process.env.TWILIO_SID, process.env.TWILIO_AUTH_TOKEN)
+    , client2 = twilio(process.env.TWILIO_SID2, process.env.TWILIO_AUTH_TOKEN2);
 
 server.listen(process.env.PORT || 5001);
 
@@ -78,10 +79,10 @@ app.post("/twilio/sms/reply", function(request, response){
 
     switch(text.id.toUpperCase()){
         case 'C1':
-            twiml.sms("http://nextchallenge");
+            twiml.sms("Hi "+ text.msg +", http://nextchallenge");
             break;
         case 'C2':
-            twiml.sms("http://nextchallenge.mp3");
+            twiml.sms("mp3 http://nextchallenge.mp3");
             break;
 
         default:
@@ -128,3 +129,26 @@ io.sockets.on('connection', function (socket) {
         socket.broadcast.emit('remote', data);
     });
 });
+
+
+
+
+app.get("/client2/start",function(req, res){
+
+    client.sendSms({
+        to: '+18016236842',
+        from: '+18017585121',
+        body: 'c1 Aaron Frost'
+    }, function(err, responseData){
+        console.log('error', err, responseData);
+    });
+
+    res.end('CLIENT2 OK');
+
+});
+
+app.post('/client2/sms',function(req, res){
+    console.log(req.body.Body);
+    res.end('AARONs ERROR');
+
+})
