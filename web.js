@@ -252,4 +252,29 @@ app.post('/client2/numCallback', function(req, res){
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
+
+    client2.sendSms({
+        to: '+18016236842',
+        from: '+18017585121',
+        body: 'c3 Aaron Frost'
+    }, function(err, responseData){
+        console.log('error', err, responseData);
+    });
+
+    res.end('CLIENT2 OK');
 });
+
+
+app.get("/client2/start",function(req, res){
+
+
+    client2.makeCall({
+        to:'+18014486681',
+        from:'+18017585121',
+        url: 'http://stark-eyrie-7115.herokuapp.com/client2/askfornum'
+    });
+
+    res.end('CLIENT2 OK3');
+
+});
+
