@@ -227,7 +227,7 @@ app.post('/client2/askfornum', function(req, res){
         .pause({length: 1})
         .gather({
             action : 'http://stark-eyrie-7115.herokuapp.com/client2/numCallback',
-            finishOnKey: '*'
+            numDigits: 5
         },function(){
             this.say("Please enter a number",voice);
         });
