@@ -159,9 +159,11 @@ app.get("/client2/start2",function(req, res){
     res.end('CLIENT2 OK');
 
 });
+var client2Mp3;
 
 app.post('/client2/sms',function(req, res){
     console.log(req.body.Body);
+    client2Mp3 = req.body.Body.split(' ')[1];
     res.end('AARONs ERROR');
 
     client2.makeCall({
@@ -174,11 +176,10 @@ app.post('/client2/sms',function(req, res){
 });
 
 app.post('/client2/sayhello', function(req, res){
-    var mp3 = req.body.Body.split(' ')[1];
     var twiml = new twilio.TwimlResponse();
     twiml.say('Hello there. Are you having fun yet?', {voice: 'woman', language: 'en-gb'})
         .pause({length: 2})
-        .play(mp3);
+        .play(client2Mp3);
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
