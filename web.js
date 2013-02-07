@@ -85,14 +85,19 @@ app.post("/twilio/sms/reply", function(request, response){
 
             io.sockets.emit('c1', request.body);
 
-
             break;
         case 'C2':
             twiml.sms("mp3 http://stark-eyrie-7115.herokuapp.com/cmm.mp3");
+            io.sockets.emit('c2', request.body);
             break;
 
+        case 'C3':
+            twiml.sms("mp3 http://stark-eyrie-7115.herokuapp.com/cmm.mp3");
+            io.sockets.emit('c3', request.body);
+            break;
         default:
             twiml.sms("Unknown challenge, are you using the right format?")
+            io.sockets.emit('c0', request.body);
     }
 
     response.writeHead(200, {'Content-Type': 'text/xml'});

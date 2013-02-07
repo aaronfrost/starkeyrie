@@ -2,14 +2,125 @@
 <html>
 <head>
     <title></title>
+
+
+    <link href='http://fonts.googleapis.com/css?family=Frijole' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Prosto+One' rel='stylesheet' type='text/css'>
+
+    <style type="text/css">
+
+            /*
+    #FE0016
+    #FC491F
+    #FD9331
+    #7E952C
+    #004A2B
+    #01012B
+    #7E002D
+    */
+
+        body {
+            background: #333;
+            font-family: 'Prosto One', cursive;
+        }
+
+        body>#container>h1 {
+            font-family: 'Frijole', cursive;
+            color: white;
+        }
+
+        ol.pt li h1 {
+            color: white;
+            margin: 0;
+            font-size: 1.4em;
+            /*font-family: 'Frijole', cursive;*/
+
+        }
+
+        ol.pt {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        ol.pt > li {
+            display: inline-block;
+            text-align: center;
+            line-height: 3em;
+            width: 250px;
+        }
+
+        ol.pt > li > ul {
+            position: absolute;
+
+            height: 600px;
+            width: 250px;
+            background: #ccc;
+            z-index: -1;
+
+            margin: 0;
+            margin-top: 15px;
+            padding: 0;
+            list-style-type: none;
+            text-align: left;
+            /*line-height: 1.0em;*/
+        }
+
+        ol.pt > li > ul > li {
+            line-height: 1.0em;
+            font-size: 1.5em;
+
+        }
+
+
+        ol.pt > li:nth-child(1) {
+            border-bottom: 10px solid #FC491F;
+        }
+
+        ol.pt > li:nth-child(2) {
+            border-bottom: 10px solid #7E952C;
+        }
+
+        ol.pt > li:nth-child(3) {
+            border-bottom: 10px solid #004A2B;
+        }
+
+        ol.pt > li:nth-child(4) {
+            border-bottom: 10px solid #7E002D;
+        }
+
+        #container {
+            /*position: relative;*/
+            text-align: center;
+            width: 1020px;
+            margin: 0px auto;
+        }
+    </style>
 </head>
 <body>
 
+<div id="container">
+    <h1>GDG Utah Survivior</h1>
 
-<h1>Challenge One</h1>
-<ul id="c1">
-
-</ul>
+    <ol class="pt">
+        <li><h1>Start Here</h1>
+            <ul id="c0">
+            </ul>
+        </li>
+        <li><h1>Challenge 1</h1>
+            <ul id="c1">
+            </ul>
+        </li>
+        <li><h1>Challenge 2</h1>
+            <ul id="c2">
+            </ul>
+        </li>
+        <li><h1>Challenge 3</h1>
+            <ul id="c3">
+            </ul>
+        </li>
+    </ol>
+</div>
 
 
 <script type="text/javascript" src="js/jquery-1.9.1.min.js"></script>
@@ -22,12 +133,30 @@
 //        socket.emit('my other event', { my:'data' });
     });
 
-
-    socket.on('c1', function(data){
+    socket.on('c0', function (data) {
         console.log('c1', data);
-
-        $('#c1').append('<li>').text(data.From);
+        var li = $('<li></li>').attr('id', data.From).text(data.From);
+        $('#c0').append(li);
     });
+
+    socket.on('c1', function (data) {
+        var li = $('#'+data.From);
+        console.log(li);
+        $('#c1').append(li.detach());
+    });
+
+    socket.on('c2', function (data) {
+        var li = $('#'+data.From);
+        console.log(li);
+        $('#c2').append(li.detach());
+    });
+
+    socket.on('c3', function (data) {
+        var li = $('#'+data.From);
+        console.log(li);
+        $('#c3').append(li.detach());
+    });
+
 </script>
 
 </body>
