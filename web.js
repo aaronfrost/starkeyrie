@@ -223,13 +223,14 @@ app.post('/client2/sayhello', function(req, res){
 
 app.post('/client2/askfornum', function(req, res){
     var twiml = new twilio.TwimlResponse();
-    twiml.say('Hello, this is round 3', voice)
+    twiml.pause({length: 2})
+        .say('Hello, this is round 3', voice)
         .pause({length: 1})
         .gather({
             action : 'http://stark-eyrie-7115.herokuapp.com/client2/numCallback',
             numDigits: 5
         },function(){
-            this.say("Please enter a number",voice);
+            this.say("Please enter five numbers",voice);
         });
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
@@ -237,6 +238,18 @@ app.post('/client2/askfornum', function(req, res){
 });
 var nums = [];
 app.post('/client2/numCallback', function(req, res){
-    console.log(req.body);
-    res.end('ENDING NumCallback')
+    console.log(req.body.Digits);
+    var digits = req.body.Digits.split('');
+    var total = 0;
+    digits.forEach(function(d){
+        total += parseInt(d);
+    })
+    //res.end('ENDING NumCallback')
+    var twiml = new twilio.TwimlResponse();
+    twiml.say('Well Mister Waisenhiimer, your total is '+total, {voice: 'woman', language: 'en-gb'})
+        .pause({length: 2})
+        .say('Please enjoy the rest of the Survivor Event!', voice);
+
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
 });
