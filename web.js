@@ -115,7 +115,8 @@ app.post("/twilio/sms/reply", function(request, response){
 app.post('/client/congrats', function(req, res){
     var twiml = new twilio.TwimlResponse();
     twiml.pause({length: 2});
-    twiml.play('http://stark-eyrie-7115.herokuapp.com/congrats2.mp3');
+//    twiml.play('http://stark-eyrie-7115.herokuapp.com/congrats2.mp3');
+    twiml.say('Any way the wind blows, doesn\'t really matter to me');
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
@@ -242,6 +243,8 @@ app.post('/client2/voice', function(req,res){
 
 app.post('/client2/transcription', function(req, res){
     console.log(req.body.TranscriptionText);
+
+
 });
 
 
