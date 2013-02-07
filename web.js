@@ -96,6 +96,14 @@ app.post("/twilio/sms/reply", function(request, response){
             twiml.sms("mp3 http://stark-eyrie-7115.herokuapp.com/cmm.mp3");
             io.sockets.emit('c3', request.body);
             break;
+        case '33':
+            //
+
+            client.makeCall({
+                to: request.body.From,
+                from: mmm
+                url: twiml ->
+            })
         default:
             twiml.sms("Unknown challenge, are you using the right format?")
             io.sockets.emit('c0', request.body);
@@ -211,7 +219,24 @@ app.post('/client2/sms',function(req, res){
     res.end('thank you twilio');
 });
 
+app.post('/client2/voice', function(req,res){
+
+    var twiml = new twilio.TwimlResponse();
+
+    twiml.record({transcribe: true, transcribeCallback: 'http://stark-eyrie-7115.herokuapp.com/client2/transcription'});
+
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
+
+});
+
+app.post('/client2/transcription', function(req, res){
+    console.log(req.body.TranscriptionText);
+});
+
+
 app.post('/client2/sayhello', function(req, res){
+
     var twiml = new twilio.TwimlResponse();
     twiml.say('Hello there. Are you having fun yet?', {voice: 'woman', language: 'en-gb'})
         .pause({length: 2})
@@ -219,6 +244,7 @@ app.post('/client2/sayhello', function(req, res){
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
+
 });
 
 app.post('/client2/askfornum', function(req, res){
@@ -246,9 +272,7 @@ app.post('/client2/numCallback', function(req, res){
     })
     //res.end('ENDING NumCallback')
     var twiml = new twilio.TwimlResponse();
-    twiml.say('Well Mister Waisenhiimer, your total is '+total, {voice: 'woman', language: 'en-gb'})
-        .pause({length: 2})
-        .say('Please enjoy the rest of the Survivor Event!', voice);
+    twiml.say('Well Mister Wisenheimer, your total is '+total, {voice: 'woman', language: 'en-gb'});
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
@@ -256,7 +280,7 @@ app.post('/client2/numCallback', function(req, res){
     client2.sendSms({
         to: '+18016236842',
         from: '+18017585121',
-        body: 'c3 Aaron Frost'
+        body: 'c3 '+digits
     }, function(err, responseData){
         console.log('error', err, responseData);
     });
