@@ -116,7 +116,7 @@ app.post('/client/congrats', function(req, res){
     var twiml = new twilio.TwimlResponse();
     twiml.pause({length: 3});
 //    twiml.play('http://stark-eyrie-7115.herokuapp.com/congrats2.mp3');
-    twiml.say('Any way the wind blows, doesn\'t really matter to me');
+    twiml.say('Any way the wind blows, doesn\'t really matter two me');
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
