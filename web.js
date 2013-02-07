@@ -99,11 +99,7 @@ app.post("/twilio/sms/reply", function(request, response){
         case '33':
             //
 
-            client.makeCall({
-                to: request.body.From,
-                from: mmm
-                url: twiml ->
-            })
+
         default:
             twiml.sms("Unknown challenge, are you using the right format?")
             io.sockets.emit('c0', request.body);
@@ -223,6 +219,8 @@ app.post('/client2/voice', function(req,res){
 
     var twiml = new twilio.TwimlResponse();
 
+    twiml.pause({length: 1});
+    twiml.say('Hello, say something');
     twiml.record({transcribe: true, transcribeCallback: 'http://stark-eyrie-7115.herokuapp.com/client2/transcription'});
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
