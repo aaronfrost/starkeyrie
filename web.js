@@ -117,8 +117,8 @@ app.post('/client/congrats', function(req, res){
     var twiml = new twilio.TwimlResponse();
     twiml.play('http://stark-eyrie-7115.herokuapp.com/congrats2.mp3');
 
-    response.writeHead(200, {'Content-Type': 'text/xml'});
-    response.end(twiml.toString());
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
 })
 
 
