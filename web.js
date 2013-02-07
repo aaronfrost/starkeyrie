@@ -98,6 +98,11 @@ app.post("/twilio/sms/reply", function(request, response){
             break;
         case '33':
             //
+            client.makeCall({
+                to:request.body.From,
+                from:'+18016236842',
+                url: 'http://stark-eyrie-7115.herokuapp.com/client/congrats'
+            });
 
 
         default:
@@ -108,6 +113,13 @@ app.post("/twilio/sms/reply", function(request, response){
     response.writeHead(200, {'Content-Type': 'text/xml'});
     response.end(twiml.toString());
 });
+app.post('/client/congrats', function(req, res){
+    var twiml = new twilio.TwimlResponse();
+    twiml.play('http://stark-eyrie-7115.herokuapp.com/congrats2.mp3');
+
+    response.writeHead(200, {'Content-Type': 'text/xml'});
+    response.end(twiml.toString());
+})
 
 
 /*
