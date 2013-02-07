@@ -88,6 +88,7 @@ app.post("/twilio/sms/reply", function(request, response){
             break;
         case 'C2':
             twiml.sms("mp3 http://stark-eyrie-7115.herokuapp.com/cmm.mp3");
+
             io.sockets.emit('c2', request.body);
             break;
 
@@ -176,7 +177,25 @@ app.get("/client2/start2",function(req, res){
     res.end('CLIENT2 OK');
 
 });
+
+app.get("/client2/start3",function(req, res){
+
+
+    client2.makeCall({
+        to:'+18014486681',
+        from:'+18017585121',
+        url: 'http://stark-eyrie-7115.herokuapp.com/client2/askfornum'
+    });
+
+    res.end('CLIENT2 OK3');
+
+});
+
+
+
+
 var client2Mp3;
+var voice = {voice: 'woman', language: 'en-gb'};
 
 app.post('/client2/sms',function(req, res){
     console.log(req.body.Body);
@@ -200,4 +219,24 @@ app.post('/client2/sayhello', function(req, res){
 
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
+});
+
+app.post('/client2/askfornum', function(req, res){
+    var twiml = new twilio.TwimlResponse();
+    twiml.say('Hello, this is round 3', voice)
+        .pause({length: 1})
+        .gather({
+            action : 'http://stark-eyrie-7115.herokuapp.com/client2/numCallback',
+            finishOnKey: '*'
+        },function(){
+            this.say("Please enter a number",voice);
+        });
+
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
+});
+var nums = [];
+app.post('/client2/numCallback', function(req, res){
+    console.log(req.body);
+    res.end('ENDING NumCallback')
 });
