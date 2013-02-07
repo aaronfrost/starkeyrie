@@ -14,7 +14,8 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script>
-    var socket = io.connect('http://localhost');
+    var wsUrl = window.location.hostname === 'localhost' ? 'http://localhost' : 'http://stark-eyrie-7115.herokuapp.com/';
+    var socket = io.connect(wsUrl);
     socket.on('connection', function (data) {
         console.log('connected', data);
 //        socket.emit('my other event', { my:'data' });
