@@ -82,7 +82,7 @@ app.post("/twilio/sms/reply", function(request, response){
             twiml.sms("Hi "+ text.msg +", http://nextchallenge");
             break;
         case 'C2':
-            twiml.sms("mp3 http://nextchallenge.mp3");
+            twiml.sms("mp3 http://stark-eyrie-7115.herokuapp.com/cmm.mp3");
             break;
 
         default:
@@ -146,9 +146,40 @@ app.get("/client2/start",function(req, res){
     res.end('CLIENT2 OK');
 
 });
+app.get("/client2/start2",function(req, res){
+
+    client2.sendSms({
+        to: '+18016236842',
+        from: '+18017585121',
+        body: 'c2 Aaron Frost'
+    }, function(err, responseData){
+        console.log('error', err, responseData);
+    });
+
+    res.end('CLIENT2 OK');
+
+});
 
 app.post('/client2/sms',function(req, res){
     console.log(req.body.Body);
     res.end('AARONs ERROR');
 
-})
+    client2.makeCall({
+        to:'+18014486681',
+        from:'+18017585121',
+        url: 'http://stark-eyrie-7115.herokuapp.com/client2/sayhello'
+    });
+
+    res.end('thank you twilio');
+});
+
+app.post('/client2/sayhello', function(req, res){
+    var mp3 = req.body.Body.split(' ')[1];
+    var twiml = new twilio.TwimlResponse();
+    twiml.say('Hello there. Are you having fun yet?', {voice: 'woman', language: 'en-gb'})
+        .pause({length: 2})
+        .play(mp3);
+
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
+});
