@@ -135,7 +135,7 @@ io.sockets.on('connection', function (socket) {
 
 app.get("/client2/start",function(req, res){
 
-    client.sendSms({
+    client2.sendSms({
         to: '+18016236842',
         from: '+18017585121',
         body: 'c1 Aaron Frost'
