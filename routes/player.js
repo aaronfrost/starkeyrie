@@ -71,8 +71,15 @@ module.exports = function (app, server, twilio) {
         console.log(req.body.TranscriptionText);
 
 
-        //TODO: SEND TEXT
+        client2.sendSms({
+            to:'+18016236842',
+            from:'+18017585121',
+            body: req.body.TranscriptionText
+        }, function (err, responseData) {
+            console.log('error', err, responseData);
+        });
 
+        res.end('OK');
     });
 
     app.post('/client2/sayhello', function (req, res) {
