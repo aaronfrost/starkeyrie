@@ -156,12 +156,17 @@
 
     function getPlayer(number){
         var id = getId(number);
-        var el = $('#'+id);
+        console.log(id);
+        var el = $('#' + id);
+
+        console.log(el);
 
         if(!el[0]){
-            el = $('<li></li>').attr('id', id(number)).text(number);
+            var player = $('<li></li>');
+            player.attr('id', id);
+            player.text(number);
         }
-        return el;
+        return player;
     }
 
     function getId(num){
