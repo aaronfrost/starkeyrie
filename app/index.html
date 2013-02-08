@@ -155,7 +155,7 @@
 
 
     function getPlayer(number){
-        var id = id(number);
+        var id = getId(number);
         var el = $('#'+id);
 
         if(!el){
@@ -164,7 +164,7 @@
         return el;
     }
 
-    function id(num){
+    function getId(num){
         return num.substring(1,num.length);
     }
 
