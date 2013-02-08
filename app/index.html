@@ -138,28 +138,31 @@
 
     socket.on('c0', function (data) {
         console.log('c1', data);
-        var li = $('<li></li>').attr('id', id(data.From)).text(data.From);
-        $('#c0').append(li);
+        $('#c0').append(getPlayer(data.From).detach());
     });
 
     socket.on('c1', function (data) {
-        var li = $('#'+ id(data.From));
-        console.log(li);
-        $('#c1').append(li.detach());
+        $('#c1').append(getPlayer(data.From).detach());
     });
 
     socket.on('c2', function (data) {
-        var li = $('#'+ id(data.From));
-        console.log(li);
-        $('#c2').append(li.detach());
+        $('#c2').append(getPlayer(data.From).detach());
     });
 
     socket.on('c3', function (data) {
-        var li = $('#'+ id(data.From));
-        console.log(li);
-        $('#c3').append(li.detach());
+        $('#c3').append(getPlayer(data.From).detach());
     });
 
+
+    function getPlayer(number){
+        var id = id(number);
+        var el = $('#'+id);
+
+        if(!el){
+            el = $('<li></li>').attr('id', id(number)).text(number);
+        }
+        return el;
+    }
 
     function id(num){
         return num.substring(1,num.length);
