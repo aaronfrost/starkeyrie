@@ -158,7 +158,7 @@
         var id = getId(number);
         var el = $('#'+id);
 
-        if(!el){
+        if(!el[0]){
             el = $('<li></li>').attr('id', id(number)).text(number);
         }
         return el;
