@@ -71,9 +71,10 @@ module.exports = function(app, server, twilio){
     });
 
     app.post("/host/sms", function(request, response){
-        var twiml = new twilio.TwimlResponse();
+        
 
-        console.log(request.body);
+        var twiml = new twilio.TwimlResponse();
+        console.log("SMS INCOMING >>>>>>>>>>>",  request.body);
 
         var textBody = request.body.Body;
 
