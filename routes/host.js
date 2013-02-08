@@ -103,9 +103,12 @@ module.exports = function(app, server, twilio){
                         url: 'http://stark-eyrie-7115.herokuapp.com/host/congrats'
                     });
                     break;
-                default:
+                case 'HELLO':
                     twiml.sms("Are you ready to play Survivor, GDG Utah?");
                     io.sockets.emit('c0', request.body);
+                    break;
+                default:
+                    console.log('UNKNOWN -- ');
             }
         }
 
